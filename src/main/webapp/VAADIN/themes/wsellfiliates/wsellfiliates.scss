@@ -1,0 +1,9 @@
+// If you want to overwrite any function/mixins/variables of valo, do it here.
+
+@import '../valo/valo';
+
+.wsellfiliates{
+  @include valo;
+
+  /* An actual theme rules below */
+}

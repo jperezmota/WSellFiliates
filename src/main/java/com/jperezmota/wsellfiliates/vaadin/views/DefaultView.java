@@ -1,4 +1,4 @@
-package com.jperezmota.wsellfiliates.vaadin.main_ui;
+package com.jperezmota.wsellfiliates.vaadin.views;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;

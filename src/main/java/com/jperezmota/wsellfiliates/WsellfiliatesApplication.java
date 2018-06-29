@@ -1,4 +1,4 @@
-package com.jperezmota.wsellfiliates.vaadin.main_ui;
+package com.jperezmota.wsellfiliates;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
