@@ -1,9 +1,9 @@
 package com.jperezmota.wsellfiliates.vaadin.ui.main;
 
 
-import com.jperezmota.wsellfiliates.config.ApplicationProperties;
 import com.jperezmota.wsellfiliates.services.UserSession;
-import com.jperezmota.wsellfiliates.vaadin.views.DefaultView;
+import com.jperezmota.wsellfiliates.utilities.ApplicationProperties;
+import com.jperezmota.wsellfiliates.vaadin.views.ErrorView;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
@@ -89,7 +89,7 @@ public class MainUI extends UI implements ViewChangeListener{
     		ComponentContainer viewDisplayArea = rootLayout.getContentContainer();
 		navigator = new Navigator(this, viewDisplayArea);
 	    navigator.addProvider(this.viewProvider);
-	    navigator.setErrorView(DefaultView.class);
+	    navigator.setErrorView(ErrorView.class);
 	    navigator.addViewChangeListener(this);
 	}  
     

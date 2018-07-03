@@ -7,11 +7,11 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
-import com.jperezmota.wsellfiliates.config.ApplicationProperties;
 import com.jperezmota.wsellfiliates.entity.Authority;
 import com.jperezmota.wsellfiliates.entity.User;
 import com.jperezmota.wsellfiliates.services.AuthService;
 import com.jperezmota.wsellfiliates.services.UserSession;
+import com.jperezmota.wsellfiliates.utilities.ApplicationProperties;
 import com.jperezmota.wsellfiliates.utilities.SystemNotification;
 import com.jperezmota.wsellfiliates.vaadin.ui.main.MainUI;
 import com.vaadin.annotations.PreserveOnRefresh;

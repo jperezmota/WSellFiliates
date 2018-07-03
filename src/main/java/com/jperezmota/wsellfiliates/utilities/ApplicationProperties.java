@@ -1,4 +1,4 @@
-package com.jperezmota.wsellfiliates.config;
+package com.jperezmota.wsellfiliates.utilities;
 
 public class ApplicationProperties {
 	
