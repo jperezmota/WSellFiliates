@@ -7,8 +7,12 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 
+import com.jperezmota.wsellfiliates.config.ApplicationProperties;
+import com.jperezmota.wsellfiliates.services.UserSession;
 import com.jperezmota.wsellfiliates.vaadin.views.LoginView;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -30,6 +34,9 @@ import com.vaadin.ui.themes.ValoTheme;
 
 public class MainMenu extends CssLayout{
 	
+	
+	private UserSession userSession;
+	
 	private Label title;
 	private HorizontalLayout top;
 	private Button showMenu;
@@ -38,7 +45,8 @@ public class MainMenu extends CssLayout{
 	CssLayout menuItemsLayout = new CssLayout();
 	public final LinkedHashMap<String, String> menuItems = new LinkedHashMap<String, String>();
 	
-	public MainMenu() {		
+	public MainMenu(UserSession userSession) {	
+		this.userSession = userSession;
 		createInterface();
 	}
 	
@@ -74,7 +82,6 @@ public class MainMenu extends CssLayout{
         showMenu.addStyleName("valo-menu-toggle");
         showMenu.setIcon(FontAwesome.LIST);
         
-
         title = new Label("<h3>Vaadin <strong>Valo Theme</strong></h3>", ContentMode.HTML);
         title.setSizeUndefined();
         
@@ -85,10 +92,14 @@ public class MainMenu extends CssLayout{
                 new ThemeResource("../tests-valo/img/profile-pic-300px.jpg"),
                 null
         );
+       
+        
         settingsItem.addItem("Edit Profile", null);
         settingsItem.addItem("Preferences", null);
         settingsItem.addSeparator();
-        settingsItem.addItem("Sign Out", FontAwesome.SIGN_OUT, e -> UI.getCurrent().getNavigator().navigateTo(LoginView.VIEW_NAME));
+        settingsItem.addItem("Sign Out", VaadinIcons.SIGN_OUT, e -> {
+        		userSession.invalidateSessionData(); UI.getCurrent().getPage().setLocation("/login");
+        	});
         
 
         menuItemsLayout.setPrimaryStyleName("valo-menuitems");

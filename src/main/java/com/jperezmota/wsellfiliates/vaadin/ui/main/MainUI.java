@@ -26,20 +26,28 @@ import java.util.Map;
 @Theme("wsellfiliates")
 @Title("Demo Valo Theme")
 public class MainUI extends UI implements ViewChangeListener{
+	
+	public static final String VIEW_NAME = "/";
 
 	@Autowired
     private SpringViewProvider viewProvider;
 	private Navigator navigator;
 	
+	@Autowired
+	private UserSession userSession;
+	
 	private MainMenu mainMenu;
     private ValoLayout rootLayout;
     private CssLayout menuItemsLayout = new CssLayout();
-    private CssLayout menu;
     
     @Override
     protected void init(VaadinRequest request) {
-    		createInterface();
-    		configureNavigator();
+    		if(userSession.isAuthenticated()) {
+    			createInterface();
+        		configureNavigator();
+		}else {
+			UI.getCurrent().getPage().setLocation("/login");	
+		}
     }
     
     private void createInterface() {
@@ -64,7 +72,7 @@ public class MainUI extends UI implements ViewChangeListener{
     }
     
     private void createMainMenu() {
-    		mainMenu = new MainMenu();
+    		mainMenu = new MainMenu(userSession);
 		rootLayout.addMenu(mainMenu);	
     }
     
@@ -104,6 +112,10 @@ public class MainUI extends UI implements ViewChangeListener{
             }
         }
         removeStyleName("valo-menu-visible");
+    }
+    
+    public Navigator getNavigator() {
+    		return this.navigator;
     }
    
 }

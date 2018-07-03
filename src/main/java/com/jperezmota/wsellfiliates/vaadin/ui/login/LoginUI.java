@@ -1,21 +1,31 @@
 package com.jperezmota.wsellfiliates.vaadin.ui.login;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
 import com.jperezmota.wsellfiliates.config.ApplicationProperties;
+import com.jperezmota.wsellfiliates.entity.Authority;
+import com.jperezmota.wsellfiliates.entity.User;
+import com.jperezmota.wsellfiliates.services.AuthService;
 import com.jperezmota.wsellfiliates.services.UserSession;
+import com.jperezmota.wsellfiliates.utilities.SystemNotification;
+import com.jperezmota.wsellfiliates.vaadin.ui.main.MainUI;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.icons.VaadinIcons;
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Page;
 import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.shared.Position;
 import com.vaadin.spring.annotation.SpringUI;
+import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
@@ -31,36 +41,42 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 @SpringUI(path = "/login")
-@PreserveOnRefresh
 @Theme("wsellfiliates")
+@PreserveOnRefresh
 public class LoginUI extends UI{
+	
+	@Autowired
+	private AuthService authService;
+	@Autowired 
+	private UserSession UserSession;
+	@Autowired
+	private Environment environment;
 	
 	private VerticalLayout rootLayout;
 	private Component loginLayout;
 	private Label welcome;
 	private Label title;
-	//
-
-    private final Environment environment;
 
     private TextField txtUsername;
     private PasswordField txtPassword;
-    private CheckBox rememberMe;
 
-    private Button loginButton;
+    private Button btnLogin;
     
     @Autowired
     private UserSession userSession;
 
-    @Autowired
-    public LoginUI(Environment environment) {
-        this.environment = environment;
-    }
-
     @Override
     protected void init(VaadinRequest request) {
-    		createInterface();
+    	if(userSession.isAuthenticated()) {
+			redirectToMainUI();
+		}else {
+			createInterface();		
+		}
     }
+    
+    private void redirectToMainUI() {
+		   UI.getCurrent().getPage().setLocation("/");
+	}
     
     private void createInterface() {
     		configureRootLayout();
@@ -85,8 +101,40 @@ public class LoginUI extends UI{
     private void addComponentsToUI() {
     		rootLayout.addComponent(loginLayout);
     		rootLayout.setComponentAlignment(loginLayout, Alignment.MIDDLE_CENTER);
-    		super.setContent(rootLayout);
+    		setContent(rootLayout);
     }
+    
+    private void login() {
+        try {
+        		proccessLogin();
+        } catch (Exception ex) {
+        		resetForm();
+            SystemNotification.showExceptionNotification(ex.getMessage());
+        }
+    }
+    
+    private void proccessLogin() {
+    		String username = txtUsername.getValue();
+		String password = txtPassword.getValue();
+		
+		User authenticatedUser =  authService.authenticateUser(username, password);
+		List<String> authorities = authService.getUserAuthorities(authenticatedUser);
+	
+		createUserSession(authenticatedUser.getUsername(), authorities);
+		redirectToMainUI();
+    }
+    
+    private void resetForm() {
+    	  	txtUsername.focus();
+    	  	txtUsername.selectAll();
+    	  	txtPassword.setValue("");
+    }
+
+	private void createUserSession(String username, List<String> authorities) {
+		userSession.setAuthenticated(true);
+		userSession.setUser(username);
+		userSession.setAuthorities(authorities);
+	}
 
     private Component createLoginLayout() {
         final VerticalLayout loginLayout = new VerticalLayout();
@@ -133,31 +181,17 @@ public class LoginUI extends UI{
         txtPassword.addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON);
         txtPassword.setWidth("100%");
 
-        loginButton = new Button("Login");
-        loginButton.addStyleName(ValoTheme.BUTTON_PRIMARY);
-        loginButton.setDisableOnClick(true);
-        loginButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
-        loginButton.setWidth("100%");
-        loginButton.focus();
+        btnLogin = new Button("Login");
+        btnLogin.addStyleName(ValoTheme.BUTTON_PRIMARY);
+        btnLogin.setDisableOnClick(true);
+        btnLogin.setClickShortcut(ShortcutAction.KeyCode.ENTER);
+        btnLogin.setWidth("100%");
+        btnLogin.focus();
 
-        fields.addComponents(txtUsername, txtPassword, loginButton);
-        fields.setComponentAlignment(loginButton, Alignment.BOTTOM_RIGHT);
-        loginButton.addClickListener(e -> login());
+        fields.addComponents(txtUsername, txtPassword, btnLogin);
+        fields.setComponentAlignment(btnLogin, Alignment.BOTTOM_RIGHT);
+        btnLogin.addClickListener(e -> login());
         return fields;
-    }
-
-    private void login() {
-        try {
-//            vaadinSecurity.login(username.getValue(), password.getValue(), rememberMe.getValue());
-        } catch (RuntimeException ex) {
-            txtUsername.focus();
-            txtUsername.selectAll();
-            txtPassword.setValue("");
-        } catch (Exception ex) {
-            Notification.show("An unexpected error occurred", ex.getMessage(), Notification.Type.ERROR_MESSAGE);
-        } finally {
-            loginButton.setEnabled(true);
-        }
     }
     
 }
