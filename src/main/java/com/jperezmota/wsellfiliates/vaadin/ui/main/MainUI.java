@@ -1,6 +1,7 @@
 package com.jperezmota.wsellfiliates.vaadin.ui.main;
 
 
+import com.jperezmota.wsellfiliates.config.ApplicationProperties;
 import com.jperezmota.wsellfiliates.services.UserSession;
 import com.jperezmota.wsellfiliates.vaadin.views.DefaultView;
 import com.vaadin.annotations.PreserveOnRefresh;
@@ -16,6 +17,7 @@ import com.vaadin.spring.navigator.SpringViewProvider;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -35,6 +37,8 @@ public class MainUI extends UI implements ViewChangeListener{
 	
 	@Autowired
 	private UserSession userSession;
+	@Autowired
+	private Environment environment;
 	
 	private MainMenu mainMenu;
     private ValoLayout rootLayout;
@@ -72,7 +76,8 @@ public class MainUI extends UI implements ViewChangeListener{
     }
     
     private void createMainMenu() {
-    		mainMenu = new MainMenu(userSession);
+    		String appName = environment.getProperty(ApplicationProperties.APP_NAME);
+    		mainMenu = new MainMenu(appName, userSession);
 		rootLayout.addMenu(mainMenu);	
     }
     

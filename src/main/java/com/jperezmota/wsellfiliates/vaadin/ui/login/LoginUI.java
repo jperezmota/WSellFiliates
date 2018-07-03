@@ -132,7 +132,7 @@ public class LoginUI extends UI{
 
 	private void createUserSession(String username, List<String> authorities) {
 		userSession.setAuthenticated(true);
-		userSession.setUser(username);
+		userSession.setUsername(username);
 		userSession.setAuthorities(authorities);
 	}
 

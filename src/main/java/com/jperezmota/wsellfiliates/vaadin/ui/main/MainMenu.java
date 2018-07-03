@@ -34,7 +34,7 @@ import com.vaadin.ui.themes.ValoTheme;
 
 public class MainMenu extends CssLayout{
 	
-	
+	private String appName;
 	private UserSession userSession;
 	
 	private Label title;
@@ -45,7 +45,8 @@ public class MainMenu extends CssLayout{
 	CssLayout menuItemsLayout = new CssLayout();
 	public final LinkedHashMap<String, String> menuItems = new LinkedHashMap<String, String>();
 	
-	public MainMenu(UserSession userSession) {	
+	public MainMenu(String appName, UserSession userSession) {	
+		this.appName = appName;
 		this.userSession = userSession;
 		createInterface();
 	}
@@ -62,6 +63,7 @@ public class MainMenu extends CssLayout{
 	}
 	
 	private void createUIComponents() {
+		
 		top = new HorizontalLayout();
         top.setWidth("100%");
         top.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
@@ -82,27 +84,45 @@ public class MainMenu extends CssLayout{
         showMenu.addStyleName("valo-menu-toggle");
         showMenu.setIcon(FontAwesome.LIST);
         
-        title = new Label("<h3>Vaadin <strong>Valo Theme</strong></h3>", ContentMode.HTML);
+        title = new Label("<h3><strong>"+appName+"</strong></h3>", ContentMode.HTML);
         title.setSizeUndefined();
         
         settings = new MenuBar();
         settings.addStyleName("user-menu");
         final MenuBar.MenuItem settingsItem = settings.addItem(
-                "Michal_Hajek",
+                userSession.getUsername(),
                 new ThemeResource("../tests-valo/img/profile-pic-300px.jpg"),
                 null
         );
        
         
-        settingsItem.addItem("Edit Profile", null);
-        settingsItem.addItem("Preferences", null);
+        settingsItem.addItem("Change Password", null);
         settingsItem.addSeparator();
         settingsItem.addItem("Sign Out", VaadinIcons.SIGN_OUT, e -> {
         		userSession.invalidateSessionData(); UI.getCurrent().getPage().setLocation("/login");
         	});
-        
 
         menuItemsLayout.setPrimaryStyleName("valo-menuitems");
+        
+        menuItems.put(LoginView.VIEW_NAME, "Todo View");
+      Label label = null;
+      int count = -1;
+      for (final Map.Entry<String, String> item : menuItems.entrySet()) {
+          count = 0;
+          label = new Label("Other", ContentMode.HTML);
+          label.setPrimaryStyleName("valo-menu-subtitle");
+          label.addStyleName("h4");
+          label.setSizeUndefined();
+          menuItemsLayout.addComponent(label);
+          final Button b = new Button(item.getValue(), e -> getUI().getNavigator().navigateTo(item.getKey()));
+          b.setCaption(b.getCaption() + " <span class=\"valo-menu-badge\">123</span>");
+          b.setHtmlContentAllowed(true);
+          b.setPrimaryStyleName("valo-menu-item");
+//          b.setIcon(new TestIcon(100).get());
+          menuItemsLayout.addComponent(b);
+          count++;
+      }
+      label.setValue(label.getValue() + " <span class=\"valo-menu-badge\">" + count + "</span>");
 		
 	}
 
