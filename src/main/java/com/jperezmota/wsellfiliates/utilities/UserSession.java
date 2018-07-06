@@ -1,4 +1,4 @@
-package com.jperezmota.wsellfiliates.services;
+package com.jperezmota.wsellfiliates.utilities;
 
 import java.io.Serializable;
 import java.util.List;

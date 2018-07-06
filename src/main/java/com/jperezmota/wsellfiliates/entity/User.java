@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -27,8 +28,17 @@ public class User implements Serializable{
 	@OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
 	private List<Authority> authorities;
 	
+	@OneToOne(mappedBy = "asignedTo", cascade = CascadeType.ALL)
+	private AsignedCoupon asignedCoupon;
+	
 	public User() {
 		
+	}
+
+	public User(String username, String password, boolean enabled) {
+		this.username = username;
+		this.password = password;
+		this.enabled = enabled;
 	}
 
 	public String getUsername() {
@@ -53,6 +63,22 @@ public class User implements Serializable{
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	public List<Authority> getAuthorities() {
+		return authorities;
+	}
+
+	public void setAuthorities(List<Authority> authorities) {
+		this.authorities = authorities;
+	}
+
+	public AsignedCoupon getAsignedCoupon() {
+		return asignedCoupon;
+	}
+
+	public void setAsignedCoupon(AsignedCoupon asignedCoupon) {
+		this.asignedCoupon = asignedCoupon;
 	}
 
 	@Override

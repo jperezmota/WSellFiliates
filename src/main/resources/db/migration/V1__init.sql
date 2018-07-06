@@ -11,10 +11,10 @@ create table authorities (
 );
 create unique index ix_auth_username on authorities (username,authority);
 
-INSERT INTO `users` 
+INSERT INTO users
 VALUES 
 ('admin','admin', 1);
 
-INSERT INTO `authorities` 
+INSERT INTO authorities 
 VALUES 
 ('admin', 'ROLE_ADMIN');

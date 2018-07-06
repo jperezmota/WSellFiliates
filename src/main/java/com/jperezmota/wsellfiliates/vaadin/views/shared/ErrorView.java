@@ -1,6 +1,6 @@
-package com.jperezmota.wsellfiliates.vaadin.views;
+package com.jperezmota.wsellfiliates.vaadin.views.shared;
 
-import com.jperezmota.wsellfiliates.services.UserSession;
+import com.jperezmota.wsellfiliates.utilities.UserSession;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.spring.annotation.SpringView;

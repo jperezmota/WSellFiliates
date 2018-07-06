@@ -1,9 +1,9 @@
 package com.jperezmota.wsellfiliates.vaadin.ui.main;
 
 
-import com.jperezmota.wsellfiliates.services.UserSession;
 import com.jperezmota.wsellfiliates.utilities.ApplicationProperties;
-import com.jperezmota.wsellfiliates.vaadin.views.ErrorView;
+import com.jperezmota.wsellfiliates.utilities.UserSession;
+import com.jperezmota.wsellfiliates.vaadin.views.shared.ErrorView;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
@@ -24,7 +24,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @SpringUI(path = "/")
-@PreserveOnRefresh
 @Theme("wsellfiliates")
 @Title("Demo Valo Theme")
 public class MainUI extends UI implements ViewChangeListener{

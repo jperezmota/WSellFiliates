@@ -9,10 +9,10 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
-import com.jperezmota.wsellfiliates.services.UserSession;
 import com.jperezmota.wsellfiliates.utilities.ApplicationProperties;
-import com.jperezmota.wsellfiliates.vaadin.views.AffiliatesView;
+import com.jperezmota.wsellfiliates.utilities.UserSession;
 import com.jperezmota.wsellfiliates.vaadin.views.DashboardView;
+import com.jperezmota.wsellfiliates.vaadin.views.affiliates.AffiliatesView;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.ViewChangeListener;

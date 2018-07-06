@@ -1,7 +1,8 @@
+@import "addons.scss";
 @import "wsellfiliates.scss";
-@import "../_shared/login";
+
 
 .wsellfiliates {
+  @include addons;
   @include wsellfiliates;
-  @include login;
 }

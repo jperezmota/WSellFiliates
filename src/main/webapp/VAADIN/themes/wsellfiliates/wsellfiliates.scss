@@ -1,9 +1,18 @@
 // If you want to overwrite any function/mixins/variables of valo, do it here.
 
 @import '../valo/valo';
+@import "../_shared/login";
 
-.wsellfiliates{
+@mixin wsellfiliates{
   @include valo;
 
   /* An actual theme rules below */
+  @include login;
+
+  .create-affiliate-window {
+      width: 30%;
+  }
+  .create-affiliate-window[width-range~="0-300px"] {
+    width: 90%;
+  }
 }

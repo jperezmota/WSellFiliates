@@ -9,10 +9,10 @@ import org.springframework.core.env.Environment;
 
 import com.jperezmota.wsellfiliates.entity.Authority;
 import com.jperezmota.wsellfiliates.entity.User;
-import com.jperezmota.wsellfiliates.services.AuthService;
-import com.jperezmota.wsellfiliates.services.UserSession;
+import com.jperezmota.wsellfiliates.services.SecurityImplService;
 import com.jperezmota.wsellfiliates.utilities.ApplicationProperties;
-import com.jperezmota.wsellfiliates.utilities.SystemNotification;
+import com.jperezmota.wsellfiliates.utilities.SystemNotificationUtil;
+import com.jperezmota.wsellfiliates.utilities.UserSession;
 import com.jperezmota.wsellfiliates.vaadin.ui.main.MainUI;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
@@ -42,11 +42,10 @@ import com.vaadin.ui.themes.ValoTheme;
 
 @SpringUI(path = "/login")
 @Theme("wsellfiliates")
-@PreserveOnRefresh
 public class LoginUI extends UI{
 	
 	@Autowired
-	private AuthService authService;
+	private SecurityImplService authService;
 	@Autowired 
 	private UserSession UserSession;
 	@Autowired
@@ -109,7 +108,7 @@ public class LoginUI extends UI{
         		proccessLogin();
         } catch (Exception ex) {
         		resetForm();
-            SystemNotification.showExceptionNotification(ex.getMessage());
+            SystemNotificationUtil.showExceptionNotification(ex.getMessage());
         }
     }
     
@@ -183,7 +182,6 @@ public class LoginUI extends UI{
 
         btnLogin = new Button("Login");
         btnLogin.addStyleName(ValoTheme.BUTTON_PRIMARY);
-        btnLogin.setDisableOnClick(true);
         btnLogin.setClickShortcut(ShortcutAction.KeyCode.ENTER);
         btnLogin.setWidth("100%");
         btnLogin.focus();
