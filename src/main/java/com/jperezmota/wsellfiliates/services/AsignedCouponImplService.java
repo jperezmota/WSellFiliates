@@ -4,11 +4,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
@@ -46,7 +46,6 @@ public class AsignedCouponImplService {
 		asignedCoupon = asignedCouponRepository.save(asignedCoupon);
 		Authority authority = new Authority(RolesAuthorities.ROLE_AFFILIATE, asignedCoupon.getAsignedTo());
 		authorityRepository.save(authority);
-		
 		return asignedCoupon;
 	}
 	

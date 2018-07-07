@@ -6,8 +6,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
-@EnableJpaRepositories
-@EnableTransactionManagement
 public class WsellfiliatesApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(WsellfiliatesApplication.class, args);
