@@ -32,6 +32,10 @@ public class AsignedCouponImplService {
 	@Autowired
 	private AuthorityRepository authorityRepository;
 	
+	
+	public AsignedCoupon getAsignedCouponByUsername(String username) {
+		return asignedCouponRepository.findByAsignedToUsername(username);
+	}
 	public List<AsignedCoupon> getAllAsignedCoupons(){
 		return asignedCouponRepository.findByDeleted(false);
 	}

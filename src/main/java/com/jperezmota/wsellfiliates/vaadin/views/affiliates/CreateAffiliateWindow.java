@@ -15,6 +15,7 @@ import com.jperezmota.wsellfiliates.entity.AsignedCoupon;
 import com.jperezmota.wsellfiliates.entity.User;
 import com.jperezmota.wsellfiliates.services.AsignedCouponImplService;
 import com.jperezmota.wsellfiliates.services.SecurityImplService;
+import com.jperezmota.wsellfiliates.services.WordpressServiceImpl;
 import com.jperezmota.wsellfiliates.utilities.BeanUtil;
 import com.jperezmota.wsellfiliates.utilities.SystemNotificationUtil;
 import com.vaadin.event.ShortcutAction;

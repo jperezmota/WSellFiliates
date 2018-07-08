@@ -19,7 +19,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Configuration
 @EnableJpaRepositories(
 	    basePackages = "com.jperezmota.wsellfiliates.dao.wordpress", 
-	    entityManagerFactoryRef = "wordPressEntityManagerFactory", 
+	    entityManagerFactoryRef = "wordpressEntityManagerFactory", 
 	    transactionManagerRef = "wordpressTransactionManager"
         )
 public class WordpressDataSourceConfig {
@@ -31,7 +31,7 @@ public class WordpressDataSourceConfig {
 	}
 	
 	@Bean
-	public LocalContainerEntityManagerFactoryBean wordPressEntityManagerFactory(EntityManagerFactoryBuilder builder) {
+	public LocalContainerEntityManagerFactoryBean wordpressEntityManagerFactory(EntityManagerFactoryBuilder builder) {
 		return builder.dataSource(wordpressDataSource())
 				      .packages("com.jperezmota.wsellfiliates.entity.wordpress")
 				      .build();
@@ -39,7 +39,7 @@ public class WordpressDataSourceConfig {
 	
 	@Bean
 	@Autowired
-	public PlatformTransactionManager wordpressTransactionManager(@Qualifier("wordPressEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
+	public PlatformTransactionManager wordpressTransactionManager(@Qualifier("wordpressEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
 		return new JpaTransactionManager(entityManagerFactory);
 	}
 

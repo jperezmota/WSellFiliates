@@ -19,4 +19,7 @@ public interface AsignedCouponRepository extends CrudRepository<AsignedCoupon, L
 	void deleteAsignedCoupon(boolean deleted, Date deletedDate, User user, long asignedCouponId);
 	
 	List<AsignedCoupon> findByDeleted(boolean deleted);
+	
+	AsignedCoupon findByAsignedToUsername(String username);
+
 }

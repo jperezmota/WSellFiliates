@@ -7,8 +7,10 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
+import com.jperezmota.wsellfiliates.entity.AsignedCoupon;
 import com.jperezmota.wsellfiliates.entity.Authority;
 import com.jperezmota.wsellfiliates.entity.User;
+import com.jperezmota.wsellfiliates.services.AsignedCouponImplService;
 import com.jperezmota.wsellfiliates.services.SecurityImplService;
 import com.jperezmota.wsellfiliates.utilities.ApplicationProperties;
 import com.jperezmota.wsellfiliates.utilities.SystemNotificationUtil;
@@ -46,6 +48,8 @@ public class LoginUI extends UI{
 	
 	@Autowired
 	private SecurityImplService authService;
+	@Autowired
+	private AsignedCouponImplService asignedCouponImplService;
 	@Autowired 
 	private UserSession UserSession;
 	@Autowired
@@ -118,8 +122,9 @@ public class LoginUI extends UI{
 		
 		User authenticatedUser =  authService.authenticateUser(username, password);
 		List<String> authorities = authService.getUserAuthorities(authenticatedUser);
-	
-		createUserSession(authenticatedUser.getUsername(), authorities);
+		AsignedCoupon asignedCoupon = asignedCouponImplService.getAsignedCouponByUsername(username);
+		
+		createUserSession(authenticatedUser.getUsername(), authorities, asignedCoupon);
 		redirectToMainUI();
     }
     
@@ -129,10 +134,11 @@ public class LoginUI extends UI{
     	  	txtPassword.setValue("");
     }
 
-	private void createUserSession(String username, List<String> authorities) {
+	private void createUserSession(String username, List<String> authorities, AsignedCoupon asignedCoupon) {
 		userSession.setAuthenticated(true);
 		userSession.setUsername(username);
 		userSession.setAuthorities(authorities);
+		userSession.setCoupon(asignedCoupon.getCoupon());
 	}
 
     private Component createLoginLayout() {

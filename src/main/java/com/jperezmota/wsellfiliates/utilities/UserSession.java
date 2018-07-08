@@ -15,6 +15,7 @@ public class UserSession implements Serializable{
 	private boolean isAuthenticated = false;
 	private String username;
 	private List<String> authorities;
+	private String coupon;
 	
 	public boolean isAuthenticated() {
 		return isAuthenticated;
@@ -40,10 +41,19 @@ public class UserSession implements Serializable{
 		this.authorities = authorities;
 	}
 	
+	public String getCoupon() {
+		return coupon;
+	}
+
+	public void setCoupon(String coupon) {
+		this.coupon = coupon;
+	}
+
 	public void invalidateSessionData() {
 		isAuthenticated = false;
 		username = null;
 		authorities = null;
+		coupon = null;
 	}
 	
 }
