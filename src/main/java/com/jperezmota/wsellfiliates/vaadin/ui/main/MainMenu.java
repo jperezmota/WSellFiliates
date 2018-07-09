@@ -12,6 +12,7 @@ import org.springframework.core.env.Environment;
 import com.jperezmota.wsellfiliates.utilities.ApplicationProperties;
 import com.jperezmota.wsellfiliates.utilities.UserSession;
 import com.jperezmota.wsellfiliates.vaadin.views.DashboardView;
+import com.jperezmota.wsellfiliates.vaadin.views.TrackPromoCodeView;
 import com.jperezmota.wsellfiliates.vaadin.views.affiliates.AffiliatesView;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.Navigator;
@@ -134,16 +135,23 @@ public class MainMenu extends CssLayout{
 		mainMenuOptionsLayout.setPrimaryStyleName("valo-menuitems");
 		
         menuItems.put(DashboardView.VIEW_NAME, "Dashboard");
+        menuItems.put(TrackPromoCodeView.VIEW_NAME, "Track Promo Code");
         menuItems.put(AffiliatesView.VIEW_NAME, "Affiliates");
 
         for (final Map.Entry<String, String> item : menuItems.entrySet()) {
-         
           String viewNameToOpen = item.getKey();
           String menuOptionText = item.getValue();
           final Button b = new Button(menuOptionText, e -> getUI().getNavigator().navigateTo(viewNameToOpen));
           b.setPrimaryStyleName("valo-menu-item");
-          
           mainMenuOptionsLayout.addComponent(b);
+          
+          if(menuOptionText.equals("Dashboard")) {
+        	    Label lblAdminSeparator = new Label("Administration", ContentMode.HTML);
+        	    lblAdminSeparator.setPrimaryStyleName("valo-menu-subtitle");
+        	    lblAdminSeparator.addStyleName("h4");
+        	    lblAdminSeparator.setSizeUndefined();
+  	        mainMenuOptionsLayout.addComponent(lblAdminSeparator);
+          }
           
         }
         

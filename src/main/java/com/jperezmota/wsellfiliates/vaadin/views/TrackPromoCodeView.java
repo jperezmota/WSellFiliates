@@ -2,42 +2,43 @@ package com.jperezmota.wsellfiliates.vaadin.views;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.jperezmota.wsellfiliates.entity.AsignedCoupon;
 import com.jperezmota.wsellfiliates.entity.wordpress.CouponSell;
+import com.jperezmota.wsellfiliates.services.AsignedCouponImplService;
 import com.jperezmota.wsellfiliates.services.WordpressServiceImpl;
 import com.jperezmota.wsellfiliates.utilities.SystemNotificationUtil;
 import com.jperezmota.wsellfiliates.utilities.UserSession;
+import com.jperezmota.wsellfiliates.vaadin.views.affiliates.AffiliatesView;
+import com.jperezmota.wsellfiliates.vaadin.views.affiliates.CreateAffiliateWindow;
+import com.jperezmota.wsellfiliates.vaadin.views.shared.ChangePasswordWindow;
+import com.jperezmota.wsellfiliates.vaadin.views.shared.ConfirmationWindow;
 import com.vaadin.data.provider.DataProvider;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.data.provider.Query;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.spring.annotation.SpringView;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.Panel;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.components.grid.FooterRow;
-import com.vaadin.ui.components.grid.HeaderCell;
-import com.vaadin.ui.components.grid.HeaderRow;
 import com.vaadin.ui.themes.ValoTheme;
 
-@SpringView(name = DashboardView.VIEW_NAME)
-public class DashboardView extends VerticalLayout implements View{
+@SpringView(name = TrackPromoCodeView.VIEW_NAME)
+public class TrackPromoCodeView extends VerticalLayout implements View{
 	
-	public static final String VIEW_NAME = "";
+	public static final String VIEW_NAME = "track-promo-code";
 	
 	@Autowired
 	private WordpressServiceImpl wordpressService;
@@ -47,19 +48,18 @@ public class DashboardView extends VerticalLayout implements View{
 	private Label lblView;
 	
 	private CssLayout filter;
+	private TextField txtPromoCode;
 	private DateField txtInitialDate;
 	private DateField txtFinalDate;
 	private Button btnSearch;
 	
 	private List<CouponSell> couponsSells;
 	private ListDataProvider<CouponSell> couponSellListDataProvider;
-	private Label lblSellsGrid;
 	private Grid<CouponSell> sellsGrid;
 
 	@Override
 	public void enter(ViewChangeEvent event) {
 		createInterface();
-		searchSalesByFilter();
     }
 	
 	private void createInterface() {
@@ -78,16 +78,12 @@ public class DashboardView extends VerticalLayout implements View{
 		lblView = new Label("Dashboard");
 		lblView.addStyleName(ValoTheme.LABEL_H1);
 		
-		lblSellsGrid = new Label("Sales made by your Promo Code");
-		lblSellsGrid.addStyleName(ValoTheme.LABEL_H3);
-		
 		filter = createFilter();
 		sellsGrid = createGrid();
 	}
 	
 	private void addComponentsToUI() {
 		addComponent(lblView);
-		addComponent(lblSellsGrid);
 		addComponent(filter);
 		addComponent(sellsGrid);
 		setExpandRatio(sellsGrid, 1.0f);
@@ -104,6 +100,11 @@ public class DashboardView extends VerticalLayout implements View{
 		txtInitialDate.addStyleName("search-filter-elements");
 		txtInitialDate.setValue(initialDate);
 		
+		txtPromoCode = new TextField();
+		txtPromoCode.setPlaceholder("Promo Code");
+		txtPromoCode.addStyleName(ValoTheme.TEXTFIELD_TINY);
+		txtPromoCode.addStyleName("search-filter-elements");
+		
 		txtFinalDate = new DateField();
 		txtFinalDate.setPlaceholder("Final Date");
 		txtFinalDate.addStyleName(ValoTheme.TEXTFIELD_TINY);
@@ -118,7 +119,7 @@ public class DashboardView extends VerticalLayout implements View{
 		btnSearch.setIcon(VaadinIcons.SEARCH);
 		btnSearch.addClickListener(event -> searchSalesByFilter());
 		
-		cssLayout.addComponents(txtInitialDate, txtFinalDate, btnSearch);
+		cssLayout.addComponents(txtPromoCode, txtInitialDate, txtFinalDate, btnSearch);
 	
 		return cssLayout;
 	}
@@ -136,6 +137,10 @@ public class DashboardView extends VerticalLayout implements View{
 		boolean validationHasErrors = false;
 		String validationErrorsMessage = "\n\n";
 		
+		if(txtPromoCode.getValue() == "") {
+			validationHasErrors = true;
+			validationErrorsMessage = "- Promo Code field is mandatory. \n";
+		}
 		if(txtInitialDate.getValue() == null || txtFinalDate.getValue() == null) {
 			validationHasErrors = true;
 			validationErrorsMessage = "- Both date fields are mandatories. \n";
@@ -152,11 +157,12 @@ public class DashboardView extends VerticalLayout implements View{
 	}
 	
 	private void executeFilterSearch() {
+		String promoCode = txtPromoCode.getValue();
 		LocalDate initialDate = txtInitialDate.getValue();
 		LocalDate finalDate = txtFinalDate.getValue();
 		
-		String userCoupon = userSession.getCoupon();
-		List<CouponSell> salesFound = wordpressService.getSellsByCoupon(userCoupon, initialDate, finalDate);
+		System.out.println("PROMOO: " + promoCode);
+		List<CouponSell> salesFound = wordpressService.getSellsByCoupon(promoCode, initialDate, finalDate);
 		if(salesFound.size() <= 0) {
 			Notification.show("Sorry we haven't found sales by your Promo Code in this period of time :(.").setDelayMsec(4);
 		}
@@ -198,5 +204,5 @@ public class DashboardView extends VerticalLayout implements View{
 		double totalInSales = couponSellListDataProvider.fetch(new Query<>()).mapToDouble(CouponSell::getOrderTotal).sum();
 		return "<b> $ " + totalInSales + "</b>";
 	}
-
+	
 }
