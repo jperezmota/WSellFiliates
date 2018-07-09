@@ -17,7 +17,7 @@ import com.jperezmota.wsellfiliates.entity.User;
 
 @Service
 @Transactional
-public class SecurityImplService {
+public class SecurityServiceImpl implements SecurityService{
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -26,6 +26,7 @@ public class SecurityImplService {
 	@Autowired 
 	AsignedCouponRepository asignedCouponRepository;
 	
+	@Override
 	public User authenticateUser(String username, String password) {
 		User user = userRepository.findByUsernameAndPasswordAndEnabled(username, password, true);
 		boolean userNotFound = user == null;
@@ -35,6 +36,7 @@ public class SecurityImplService {
 		return user;
 	}
 	
+	@Override
 	public List<String> getUserAuthorities(User user){
 		List<Authority> authorities = authorityRepository.findByUser(user);
 		
@@ -51,13 +53,15 @@ public class SecurityImplService {
 		return authoritiesList;
 	}
 	
+	@Override
 	public void changeUserPassword(String username, String newPassword, String newPasswordConfirmation) {
 		validateChangePasswordData(username, newPassword, newPasswordConfirmation);
 		System.out.println("Changing password to " + username + " pass: " + newPassword);
 		userRepository.changeUsernamePassword(newPassword, username);
 	}
 	
-	private void validateChangePasswordData(String username, String newPassword, String newPasswordConfirmation) {
+	@Override
+	public void validateChangePasswordData(String username, String newPassword, String newPasswordConfirmation) {
 		boolean validationFailed = false;
 		String validationMessages = "\n\n";
 		

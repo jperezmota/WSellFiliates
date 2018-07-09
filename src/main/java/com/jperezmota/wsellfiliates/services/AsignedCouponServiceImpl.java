@@ -23,7 +23,7 @@ import com.jperezmota.wsellfiliates.utilities.UserSession;
 
 @Service
 @Transactional
-public class AsignedCouponImplService {
+public class AsignedCouponServiceImpl implements AsignedCouponService{
 	
 	@Autowired
 	private AsignedCouponRepository asignedCouponRepository;
@@ -32,19 +32,23 @@ public class AsignedCouponImplService {
 	@Autowired
 	private AuthorityRepository authorityRepository;
 	
-	
+	@Override
 	public AsignedCoupon getAsignedCouponByUsername(String username) {
 		return asignedCouponRepository.findByAsignedToUsername(username);
 	}
+	
+	@Override
 	public List<AsignedCoupon> getAllAsignedCoupons(){
 		return asignedCouponRepository.findByDeleted(false);
 	}
 
+	@Override
 	public void deleteAsignedCoupon(AsignedCoupon asignedCoupon, String usernameInSession) {
 		User userDeleting = userRepository.findById(usernameInSession).get();
 		asignedCouponRepository.deleteAsignedCoupon(true, new Date(), userDeleting, asignedCoupon.getId()); 
 	}
 	
+	@Override
 	public AsignedCoupon createAsignedCoupon(AsignedCoupon asignedCoupon) {
 		validateAsignedCouponData(asignedCoupon);
 		asignedCoupon = asignedCouponRepository.save(asignedCoupon);
@@ -53,7 +57,8 @@ public class AsignedCouponImplService {
 		return asignedCoupon;
 	}
 	
-	private void validateAsignedCouponData(AsignedCoupon asignedCoupon) {
+	@Override
+	public void validateAsignedCouponData(AsignedCoupon asignedCoupon) {
 		boolean validationFailed = false;
 		String validationMessages = "\n\n";
 

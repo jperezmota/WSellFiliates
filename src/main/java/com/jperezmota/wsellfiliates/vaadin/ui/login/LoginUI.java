@@ -10,8 +10,8 @@ import org.springframework.core.env.Environment;
 import com.jperezmota.wsellfiliates.entity.AsignedCoupon;
 import com.jperezmota.wsellfiliates.entity.Authority;
 import com.jperezmota.wsellfiliates.entity.User;
-import com.jperezmota.wsellfiliates.services.AsignedCouponImplService;
-import com.jperezmota.wsellfiliates.services.SecurityImplService;
+import com.jperezmota.wsellfiliates.services.AsignedCouponServiceImpl;
+import com.jperezmota.wsellfiliates.services.SecurityServiceImpl;
 import com.jperezmota.wsellfiliates.utilities.ApplicationProperties;
 import com.jperezmota.wsellfiliates.utilities.SystemNotificationUtil;
 import com.jperezmota.wsellfiliates.utilities.UserSession;
@@ -47,9 +47,9 @@ import com.vaadin.ui.themes.ValoTheme;
 public class LoginUI extends UI{
 	
 	@Autowired
-	private SecurityImplService authService;
+	private SecurityServiceImpl authService;
 	@Autowired
-	private AsignedCouponImplService asignedCouponImplService;
+	private AsignedCouponServiceImpl asignedCouponImplService;
 	@Autowired 
 	private UserSession UserSession;
 	@Autowired

@@ -15,8 +15,8 @@ import org.springframework.validation.Validator;
 
 import com.jperezmota.wsellfiliates.entity.AsignedCoupon;
 import com.jperezmota.wsellfiliates.entity.User;
-import com.jperezmota.wsellfiliates.services.AsignedCouponImplService;
-import com.jperezmota.wsellfiliates.services.SecurityImplService;
+import com.jperezmota.wsellfiliates.services.AsignedCouponServiceImpl;
+import com.jperezmota.wsellfiliates.services.SecurityServiceImpl;
 import com.jperezmota.wsellfiliates.utilities.BeanUtil;
 import com.jperezmota.wsellfiliates.utilities.SystemNotificationUtil;
 import com.vaadin.event.ShortcutAction;
@@ -33,7 +33,7 @@ import com.vaadin.ui.themes.ValoTheme;
 public class ChangePasswordWindow extends Window{
 	
 	private String username;
-	private SecurityImplService authService;
+	private SecurityServiceImpl authService;
 	
 	private VerticalLayout windowLayout;
 	private Label lblMandatoryFields;
@@ -47,7 +47,7 @@ public class ChangePasswordWindow extends Window{
 	
 	public ChangePasswordWindow(String username) {
 		this.username = username;
-		authService = BeanUtil.getBean(SecurityImplService.class);
+		authService = BeanUtil.getBean(SecurityServiceImpl.class);
 		createInterface();
 	}
 	

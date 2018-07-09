@@ -13,8 +13,8 @@ import org.springframework.validation.Validator;
 
 import com.jperezmota.wsellfiliates.entity.AsignedCoupon;
 import com.jperezmota.wsellfiliates.entity.User;
-import com.jperezmota.wsellfiliates.services.AsignedCouponImplService;
-import com.jperezmota.wsellfiliates.services.SecurityImplService;
+import com.jperezmota.wsellfiliates.services.AsignedCouponServiceImpl;
+import com.jperezmota.wsellfiliates.services.SecurityServiceImpl;
 import com.jperezmota.wsellfiliates.services.WordpressServiceImpl;
 import com.jperezmota.wsellfiliates.utilities.BeanUtil;
 import com.jperezmota.wsellfiliates.utilities.SystemNotificationUtil;
@@ -43,10 +43,10 @@ public class CreateAffiliateWindow extends Window{
 	private Button btnCreate;
 	
 	private AsignedCoupon asignedCoupon;
-	private AsignedCouponImplService asignedCouponService;
+	private AsignedCouponServiceImpl asignedCouponService;
 	
 	public CreateAffiliateWindow() {
-		this.asignedCouponService = BeanUtil.getBean(AsignedCouponImplService.class);
+		this.asignedCouponService = BeanUtil.getBean(AsignedCouponServiceImpl.class);
 		createInterface();
 	}
 	

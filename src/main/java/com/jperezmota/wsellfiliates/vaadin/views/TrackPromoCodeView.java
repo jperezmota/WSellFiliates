@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.jperezmota.wsellfiliates.entity.AsignedCoupon;
 import com.jperezmota.wsellfiliates.entity.wordpress.CouponSell;
-import com.jperezmota.wsellfiliates.services.AsignedCouponImplService;
+import com.jperezmota.wsellfiliates.services.AsignedCouponServiceImpl;
 import com.jperezmota.wsellfiliates.services.WordpressServiceImpl;
 import com.jperezmota.wsellfiliates.utilities.SystemNotificationUtil;
 import com.jperezmota.wsellfiliates.utilities.UserSession;

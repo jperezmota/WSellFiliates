@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.jperezmota.wsellfiliates.entity.AsignedCoupon;
 import com.jperezmota.wsellfiliates.entity.User;
-import com.jperezmota.wsellfiliates.services.AsignedCouponImplService;
+import com.jperezmota.wsellfiliates.services.AsignedCouponServiceImpl;
 import com.jperezmota.wsellfiliates.utilities.SystemNotificationUtil;
 import com.jperezmota.wsellfiliates.utilities.UserSession;
 import com.jperezmota.wsellfiliates.vaadin.views.shared.ChangePasswordWindow;
@@ -39,7 +39,7 @@ public class AffiliatesView extends VerticalLayout implements View{
 	public static final String VIEW_NAME = "affiliates";
 	
 	@Autowired
-	private AsignedCouponImplService asignedCouponService;
+	private AsignedCouponServiceImpl asignedCouponService;
 	@Autowired
 	private UserSession userSession;
 	
