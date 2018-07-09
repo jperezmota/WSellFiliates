@@ -16,6 +16,7 @@ public class UserSession implements Serializable{
 	private String username;
 	private List<String> authorities;
 	private String coupon;
+	private boolean isAdmin = false;
 	
 	public boolean isAuthenticated() {
 		return isAuthenticated;
@@ -54,6 +55,18 @@ public class UserSession implements Serializable{
 		username = null;
 		authorities = null;
 		coupon = null;
+		isAdmin = false;
 	}
+
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+	public void setAdmin() {
+		if(authorities.contains(RolesAuthorities.ROLE_ADMIN)){
+			isAdmin = true;
+		}
+	}
+	
 	
 }

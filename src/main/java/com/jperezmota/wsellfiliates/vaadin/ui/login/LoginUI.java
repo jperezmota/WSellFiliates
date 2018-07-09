@@ -139,6 +139,7 @@ public class LoginUI extends UI{
 		userSession.setUsername(username);
 		userSession.setAuthorities(authorities);
 		userSession.setCoupon(asignedCoupon.getCoupon());
+		userSession.setAdmin();
 	}
 
     private Component createLoginLayout() {

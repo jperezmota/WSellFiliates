@@ -146,13 +146,18 @@ public class MainMenu extends CssLayout{
           b.setPrimaryStyleName("valo-menu-item");
           mainMenuOptionsLayout.addComponent(b);
           
-          if(menuOptionText.equals("Dashboard")) {
+          if(menuOptionText.equals("Dashboard") && userSession.isAdmin()) {
         	    Label lblAdminSeparator = new Label("Administration", ContentMode.HTML);
         	    lblAdminSeparator.setPrimaryStyleName("valo-menu-subtitle");
         	    lblAdminSeparator.addStyleName("h4");
         	    lblAdminSeparator.setSizeUndefined();
   	        mainMenuOptionsLayout.addComponent(lblAdminSeparator);
           }
+
+          if(  (menuOptionText.equals("Track Promo Code") || menuOptionText.equals("Affiliates")) && !userSession.isAdmin() ){
+        	  	b.setVisible(false);
+          }
+          
           
         }
         
