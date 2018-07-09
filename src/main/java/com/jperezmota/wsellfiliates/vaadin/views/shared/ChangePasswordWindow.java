@@ -97,7 +97,7 @@ public class ChangePasswordWindow extends Window{
 	private void proccessForm() {
 		try {
 			authService.changeUserPassword(this.username, txtNewPassword.getValue(), txtNewPasswordConfirmation.getValue());
-			SystemNotificationUtil.showSuccessfulOperationNotification("Affiliate created.");
+			SystemNotificationUtil.showSuccessfulOperationNotification("Password changed.");
 			close();
 		}catch(Exception ex) {
 			SystemNotificationUtil.showExceptionNotification(ex.getMessage());

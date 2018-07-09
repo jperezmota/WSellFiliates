@@ -14,6 +14,7 @@ import com.jperezmota.wsellfiliates.utilities.UserSession;
 import com.jperezmota.wsellfiliates.vaadin.views.DashboardView;
 import com.jperezmota.wsellfiliates.vaadin.views.TrackPromoCodeView;
 import com.jperezmota.wsellfiliates.vaadin.views.affiliates.AffiliatesView;
+import com.jperezmota.wsellfiliates.vaadin.views.shared.ChangePasswordWindow;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.ViewChangeListener;
@@ -121,7 +122,7 @@ public class MainMenu extends CssLayout{
                 null
         );
         
-        settingsItem.addItem("Change Password", null);
+        settingsItem.addItem("Change Password", VaadinIcons.LOCK, e -> openChangePasswordWindow());
         settingsItem.addSeparator();
         settingsItem.addItem("Sign Out", VaadinIcons.SIGN_OUT, e -> {
         		userSession.invalidateSessionData(); UI.getCurrent().getPage().setLocation("/login");
@@ -156,6 +157,11 @@ public class MainMenu extends CssLayout{
         }
         
         return mainMenuOptionsLayout;
+	}
+	
+	private void openChangePasswordWindow() {
+		ChangePasswordWindow changePasswordWindow = new ChangePasswordWindow(userSession.getUsername());
+		UI.getCurrent().addWindow(changePasswordWindow);
 	}
 
 }

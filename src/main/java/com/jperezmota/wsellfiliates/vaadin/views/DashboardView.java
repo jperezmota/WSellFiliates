@@ -171,7 +171,6 @@ public class DashboardView extends VerticalLayout implements View{
 		Grid<CouponSell> sellsGrid = new Grid<CouponSell>();
 		sellsGrid.setSizeFull();
 		
-		
 		sellsGrid.addColumn(CouponSell::getOrderId).setId("Order Id").setCaption("Order Id");
 		sellsGrid.addColumn(CouponSell::getPaidDate).setId("Date").setCaption("Date");
 		sellsGrid.addColumn(CouponSell::getBillingCountry).setId("Country").setCaption("Country");
