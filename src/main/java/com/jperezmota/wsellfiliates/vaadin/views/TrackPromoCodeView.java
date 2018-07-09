@@ -161,7 +161,6 @@ public class TrackPromoCodeView extends VerticalLayout implements View{
 		LocalDate initialDate = txtInitialDate.getValue();
 		LocalDate finalDate = txtFinalDate.getValue();
 		
-		System.out.println("PROMOO: " + promoCode);
 		List<CouponSell> salesFound = wordpressService.getSellsByCoupon(promoCode, initialDate, finalDate);
 		if(salesFound.size() <= 0) {
 			Notification.show("Sorry we haven't found sales by your Promo Code in this period of time :(.").setDelayMsec(4);
