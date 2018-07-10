@@ -1,8 +1,10 @@
 package com.jperezmota.wsellfiliates.utilities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.jperezmota.wsellfiliates.entity.AsignedCoupon;
 import com.jperezmota.wsellfiliates.entity.Authority;
 import com.jperezmota.wsellfiliates.entity.User;
 import com.vaadin.spring.annotation.SpringComponent;
@@ -48,6 +50,17 @@ public class UserSession implements Serializable{
 
 	public void setCoupon(String coupon) {
 		this.coupon = coupon;
+	}
+	
+	public void createUserSession(AsignedCoupon asignedCoupon) {
+		isAuthenticated = true;
+		this.username = asignedCoupon.getUsernameOfAsignedTo();
+		this.coupon = asignedCoupon.getCoupon();
+		this.authorities = new ArrayList<>();
+		for(Authority authority: asignedCoupon.getAsignedTo().getAuthorities()) {
+			this.authorities.add(authority.getAuthority());
+		}
+		setAdmin();
 	}
 
 	public void invalidateSessionData() {

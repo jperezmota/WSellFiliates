@@ -126,49 +126,23 @@ public class TrackPromoCodeView extends VerticalLayout implements View{
 	
 	private void searchSalesByFilter() {
 		try {
-			validateFilterData();
 			executeFilterSearch();
 		}catch (Exception e) {
+			couponsSells.clear();
+			couponSellListDataProvider.refreshAll();
 			SystemNotificationUtil.showExceptionNotification(e.getMessage());
 		}
 	}
-	
-	private void validateFilterData() {
-		boolean validationHasErrors = false;
-		String validationErrorsMessage = "\n\n";
-		
-		if(txtPromoCode.getValue() == "") {
-			validationHasErrors = true;
-			validationErrorsMessage = "- Promo Code field is mandatory. \n";
-		}
-		if(txtInitialDate.getValue() == null || txtFinalDate.getValue() == null) {
-			validationHasErrors = true;
-			validationErrorsMessage = "- Both date fields are mandatories. \n";
-		}else {
-			if(txtInitialDate.getValue().isAfter(txtFinalDate.getValue())){
-				validationHasErrors = true;
-				validationErrorsMessage = "- Initial Date field must have a value lower or equal than Final Date. \n";
-			}
-		}
-		
-		if(validationHasErrors) {
-			throw new RuntimeException(validationErrorsMessage);
-		}
-	}
-	
+
 	private void executeFilterSearch() {
 		String promoCode = txtPromoCode.getValue();
 		LocalDate initialDate = txtInitialDate.getValue();
 		LocalDate finalDate = txtFinalDate.getValue();
 		
 		List<CouponSell> salesFound = wordpressService.getSellsByCoupon(promoCode, initialDate, finalDate);
-		if(salesFound.size() <= 0) {
-			Notification.show("Sorry we haven't found sales by your Promo Code in this period of time :(.").setDelayMsec(4);
-		}
 		
 		couponsSells.clear();
 		this.couponsSells.addAll(salesFound);
-		
 		couponSellListDataProvider.refreshAll();
 	}
 

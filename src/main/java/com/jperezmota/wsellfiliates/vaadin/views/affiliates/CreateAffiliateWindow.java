@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.validation.Validator;
 
+import com.google.common.base.Charsets;
+import com.google.common.hash.HashFunction;
+import com.google.common.hash.Hashing;
 import com.jperezmota.wsellfiliates.entity.AsignedCoupon;
 import com.jperezmota.wsellfiliates.entity.User;
 import com.jperezmota.wsellfiliates.services.AsignedCouponServiceImpl;
@@ -115,7 +118,10 @@ public class CreateAffiliateWindow extends Window{
 		String password = txtPassword.getValue();
 		String coupon = txtCoupon.getValue();
 		
-		User newUser = new User(username, password, true);
+		HashFunction hashFunction = Hashing.sha256();
+		String hashedPassword = hashFunction.hashString(password, Charsets.UTF_8).toString();
+		
+		User newUser = new User(username, hashedPassword, true);
 		AsignedCoupon asignedCoupon = new AsignedCoupon(coupon, newUser);
 		
 		return asignedCoupon;

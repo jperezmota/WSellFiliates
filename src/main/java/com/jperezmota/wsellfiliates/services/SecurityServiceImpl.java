@@ -8,12 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.base.Charsets;
+import com.google.common.hash.HashFunction;
+import com.google.common.hash.Hashing;
 import com.jperezmota.wsellfiliates.dao.AsignedCouponRepository;
 import com.jperezmota.wsellfiliates.dao.AuthorityRepository;
 import com.jperezmota.wsellfiliates.dao.UserRepository;
 import com.jperezmota.wsellfiliates.entity.AsignedCoupon;
 import com.jperezmota.wsellfiliates.entity.Authority;
 import com.jperezmota.wsellfiliates.entity.User;
+import com.jperezmota.wsellfiliates.utilities.UserSession;
 
 @Service
 @Transactional
@@ -21,14 +25,46 @@ public class SecurityServiceImpl implements SecurityService{
 	
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private AsignedCouponServiceImpl asignedCouponServiceImpl;
 	@Autowired 
 	private AuthorityRepository authorityRepository;
 	@Autowired 
 	AsignedCouponRepository asignedCouponRepository;
 	
+	public AsignedCoupon authenticateUser(String username, String password) {
+		validateUserDataLogin(username, password);
+		User authenticatedUser =  verifyUsernamePassword(username, password);
+		List<String> authorities = getUserAuthorities(authenticatedUser);
+		AsignedCoupon asignedCoupon = asignedCouponServiceImpl.getAsignedCouponByUsername(username);
+		return asignedCoupon;
+	}
+	
+	private void validateUserDataLogin(String username, String password) {
+		boolean validationHasError = false;
+		String validationMessage = "";
+		
+		if(username == null || password == null) {
+			validationHasError = true;
+			validationMessage += "Both fields are mandatories.\n";
+		}else {
+			if(username.length() <= 0 || password.length() <= 0) {
+				validationHasError = true;
+				validationMessage += "Both fields are mandatories.\n";
+			}
+		}
+		
+		if(validationHasError) {
+			throw new RuntimeException(validationMessage);
+		}
+	}
+	
 	@Override
-	public User authenticateUser(String username, String password) {
-		User user = userRepository.findByUsernameAndPasswordAndEnabled(username, password, true);
+	public User verifyUsernamePassword(String username, String password) {
+		HashFunction hashFunction = Hashing.sha256();
+		String hashedPassword = hashFunction.hashString(password, Charsets.UTF_8).toString();
+	
+		User user = userRepository.findByUsernameAndPasswordAndEnabled(username, hashedPassword, true);
 		boolean userNotFound = user == null;
 		if(userNotFound) {
 			throw new RuntimeException("Invalid credentials. Verify your Username and Password.");
@@ -56,7 +92,6 @@ public class SecurityServiceImpl implements SecurityService{
 	@Override
 	public void changeUserPassword(String username, String newPassword, String newPasswordConfirmation) {
 		validateChangePasswordData(username, newPassword, newPasswordConfirmation);
-		System.out.println("Changing password to " + username + " pass: " + newPassword);
 		userRepository.changeUsernamePassword(newPassword, username);
 	}
 	

@@ -1,6 +1,6 @@
 create table users(
 	username varchar(50) not null primary key,
-	password varchar(50) not null,
+	password varchar(200) not null,
 	enabled boolean not null
 );
 
@@ -13,7 +13,7 @@ create unique index ix_auth_username on authorities (username,authority);
 
 INSERT INTO users
 VALUES 
-('admin','admin', 1);
+('admin','8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 1);
 
 INSERT INTO authorities 
 VALUES 

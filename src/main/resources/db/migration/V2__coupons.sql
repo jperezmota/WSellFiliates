@@ -9,8 +9,8 @@ create table asigned_coupons(
 	constraint fk_coupons_users foreign key(asigned_to) references users(username),
 	constraint fk_coupons_deletedby_users foreign key(deleted_by) references users(username)
 );
-
 create unique index ix_coupon_username on asigned_coupons (asigned_to);
 
-insert into asigned_coupons (coupon, asigned_to)
-values ('manny29', 'admin');
+INSERT INTO asigned_coupons (coupon, asigned_to)
+VALUES 
+('admincoupon', 'admin');

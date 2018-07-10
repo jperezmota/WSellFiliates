@@ -1,5 +1,8 @@
 package com.jperezmota.wsellfiliates.vaadin.ui.login;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -7,6 +10,9 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
+import com.google.common.base.Charsets;
+import com.google.common.hash.HashFunction;
+import com.google.common.hash.Hashing;
 import com.jperezmota.wsellfiliates.entity.AsignedCoupon;
 import com.jperezmota.wsellfiliates.entity.Authority;
 import com.jperezmota.wsellfiliates.entity.User;
@@ -47,11 +53,9 @@ import com.vaadin.ui.themes.ValoTheme;
 public class LoginUI extends UI{
 	
 	@Autowired
-	private SecurityServiceImpl authService;
-	@Autowired
-	private AsignedCouponServiceImpl asignedCouponImplService;
+	private SecurityServiceImpl securityService;
 	@Autowired 
-	private UserSession UserSession;
+	private UserSession userSession;
 	@Autowired
 	private Environment environment;
 	
@@ -64,9 +68,6 @@ public class LoginUI extends UI{
     private PasswordField txtPassword;
 
     private Button btnLogin;
-    
-    @Autowired
-    private UserSession userSession;
 
     @Override
     protected void init(VaadinRequest request) {
@@ -108,39 +109,20 @@ public class LoginUI extends UI{
     }
     
     private void login() {
-        try {
+//        try {
         		proccessLogin();
-        } catch (Exception ex) {
-        		resetForm();
-            SystemNotificationUtil.showExceptionNotification(ex.getMessage());
-        }
+        		redirectToMainUI();
+//        } catch (Exception ex) {
+//            SystemNotificationUtil.showExceptionNotification(ex.getMessage());
+//        }
     }
     
     private void proccessLogin() {
     		String username = txtUsername.getValue();
 		String password = txtPassword.getValue();
-		
-		User authenticatedUser =  authService.authenticateUser(username, password);
-		List<String> authorities = authService.getUserAuthorities(authenticatedUser);
-		AsignedCoupon asignedCoupon = asignedCouponImplService.getAsignedCouponByUsername(username);
-		
-		createUserSession(authenticatedUser.getUsername(), authorities, asignedCoupon);
-		redirectToMainUI();
+		AsignedCoupon asignedCoupon = securityService.authenticateUser(username, password);
+		userSession.createUserSession(asignedCoupon);
     }
-    
-    private void resetForm() {
-    	  	txtUsername.focus();
-    	  	txtUsername.selectAll();
-    	  	txtPassword.setValue("");
-    }
-
-	private void createUserSession(String username, List<String> authorities, AsignedCoupon asignedCoupon) {
-		userSession.setAuthenticated(true);
-		userSession.setUsername(username);
-		userSession.setAuthorities(authorities);
-		userSession.setCoupon(asignedCoupon.getCoupon());
-		userSession.setAdmin();
-	}
 
     private Component createLoginLayout() {
         final VerticalLayout loginLayout = new VerticalLayout();
