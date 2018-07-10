@@ -32,6 +32,7 @@ public class SecurityServiceImpl implements SecurityService{
 	@Autowired 
 	AsignedCouponRepository asignedCouponRepository;
 	
+	@Override
 	public AsignedCoupon authenticateUser(String username, String password) {
 		validateUserDataLogin(username, password);
 		User authenticatedUser =  verifyUsernamePassword(username, password);
@@ -40,7 +41,8 @@ public class SecurityServiceImpl implements SecurityService{
 		return asignedCoupon;
 	}
 	
-	private void validateUserDataLogin(String username, String password) {
+	@Override
+	public void validateUserDataLogin(String username, String password) {
 		boolean validationHasError = false;
 		String validationMessage = "";
 		

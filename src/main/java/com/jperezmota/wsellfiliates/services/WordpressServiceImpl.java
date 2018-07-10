@@ -38,7 +38,8 @@ public class WordpressServiceImpl implements WordpressService{
 		return couponSells; 
 	}
 	
-	private void validateFilterData(String coupon, LocalDate initialDate, LocalDate finalDate) {
+	@Override
+	public void validateFilterData(String coupon, LocalDate initialDate, LocalDate finalDate) {
 		boolean validationHasErrors = false;
 		String validationErrorsMessage = "\n\n";
 		

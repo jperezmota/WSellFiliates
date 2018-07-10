@@ -7,4 +7,5 @@ import com.jperezmota.wsellfiliates.entity.wordpress.CouponSell;
 
 public interface WordpressService {
 	public List<CouponSell> getSellsByCoupon(String coupon, LocalDate initialDate, LocalDate finalDate);
+	public void validateFilterData(String coupon, LocalDate initialDate, LocalDate finalDate);
 }
