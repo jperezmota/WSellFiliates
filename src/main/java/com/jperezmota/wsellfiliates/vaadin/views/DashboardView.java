@@ -1,12 +1,13 @@
 package com.jperezmota.wsellfiliates.vaadin.views;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 
 import com.jperezmota.wsellfiliates.entity.wordpress.CouponSell;
 import com.jperezmota.wsellfiliates.services.WordpressServiceImpl;
@@ -18,7 +19,6 @@ import com.vaadin.data.provider.Query;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -26,12 +26,8 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.components.grid.FooterRow;
-import com.vaadin.ui.components.grid.HeaderCell;
-import com.vaadin.ui.components.grid.HeaderRow;
 import com.vaadin.ui.themes.ValoTheme;
 
 @SpringView(name = DashboardView.VIEW_NAME)
@@ -43,8 +39,11 @@ public class DashboardView extends VerticalLayout implements View{
 	private WordpressServiceImpl wordpressService;
 	@Autowired
 	private UserSession userSession;
+	@Autowired
+	private Environment environment;
 	
 	private Label lblView;
+	private Label lblCommissionEarned;
 	
 	private CssLayout filter;
 	private DateField txtInitialDate;
@@ -78,6 +77,10 @@ public class DashboardView extends VerticalLayout implements View{
 		lblView = new Label("Dashboard");
 		lblView.addStyleName(ValoTheme.LABEL_H1);
 		
+		lblCommissionEarned = new Label("Commission Earned: $ 0.00");
+		lblCommissionEarned.addStyleName(ValoTheme.LABEL_H2);
+		lblCommissionEarned.addStyleName("comission-earned-label");
+		
 		lblSellsGrid = new Label("Sales made by your Promo Code");
 		lblSellsGrid.addStyleName(ValoTheme.LABEL_H3);
 		
@@ -88,6 +91,8 @@ public class DashboardView extends VerticalLayout implements View{
 	private void addComponentsToUI() {
 		addComponent(lblView);
 		addComponent(lblSellsGrid);
+		addComponent(lblCommissionEarned);
+		setComponentAlignment(lblCommissionEarned, Alignment.TOP_CENTER);
 		addComponent(filter);
 		addComponent(sellsGrid);
 		setExpandRatio(sellsGrid, 1.0f);
@@ -173,6 +178,18 @@ public class DashboardView extends VerticalLayout implements View{
 	
 	private String calculateTotalInSales() {
 		double totalInSales = couponSellListDataProvider.fetch(new Query<>()).mapToDouble(CouponSell::getOrderTotal).sum();
+
+		if(totalInSales > 0 ) {
+			DecimalFormat decimalFormat = new DecimalFormat("0.00");
+			decimalFormat.setRoundingMode(RoundingMode.DOWN);
+			double commissionPercentage = Double.valueOf(environment.getProperty("app.commission.percentage"));
+			String commissionEarned = decimalFormat.format(totalInSales * commissionPercentage);
+			
+			lblCommissionEarned.setValue("Commission Earned: $ " + commissionEarned);
+		}else {
+			lblCommissionEarned.setValue("Commission Earned: $ 0.00");
+		}
+		
 		return "<b> $ " + totalInSales + "</b>";
 	}
 

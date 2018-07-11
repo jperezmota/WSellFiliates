@@ -75,7 +75,7 @@ public class TrackPromoCodeView extends VerticalLayout implements View{
 	private void createComponents() {
 		couponsSells = new ArrayList<CouponSell>();
 		
-		lblView = new Label("Dashboard");
+		lblView = new Label("Track Promo Code");
 		lblView.addStyleName(ValoTheme.LABEL_H1);
 		
 		filter = createFilter();

@@ -109,12 +109,12 @@ public class LoginUI extends UI{
     }
     
     private void login() {
-//        try {
+        try {
         		proccessLogin();
         		redirectToMainUI();
-//        } catch (Exception ex) {
-//            SystemNotificationUtil.showExceptionNotification(ex.getMessage());
-//        }
+        } catch (Exception ex) {
+            SystemNotificationUtil.showExceptionNotification(ex.getMessage());
+        }
     }
     
     private void proccessLogin() {
