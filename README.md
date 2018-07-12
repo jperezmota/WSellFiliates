@@ -54,13 +54,14 @@ group by
     oi.order_item_name, 
     p.post_date
 ```
-4. Set `app.commission.percentage` property for the Commission Percentage (in the following format 0.05 which means %5) and your`Databases` URL in the `application.properties` file. Example below.
+4. Set `app.commission.percentage` property for the Commission Percentage (in the following format 0.05 which means %5) in the `application.properties` file. Example below.
 ```
-## General 
 app.name = WSellFiliates
 app.commission.percentage = 0.05
-
-
+spring.profiles.active=dev
+````
+5. Set `Databases` urls in the `application-dev.properties` file.
+```
 ##-------------------- DATASOURCES --------------------
 # Primary (WSellFiliates)
 spring.datasource.jdbcUrl = jdbc:mysql://localhost:3306/wsellfiliates?useSSL=false
