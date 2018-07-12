@@ -3,6 +3,10 @@ Is an easy to use Web Application integrated with your Wordpress Woocommerce Sto
 build an Affiliate Program to boost your sales and give visibility to your members about their earned commission
 made through their assigned Coupon Code.
 
+<p align="center">
+    <img src="https://s8.postimg.cc/68xq1rz6d/wsellfiliate.png" />         
+ </p>
+
 ## Who Uses WSellFiliates
 
 * [TheCoder.store](https://www.thecoder.store/)
@@ -82,6 +86,9 @@ spring.jpa.hibernate.ddl-auto = validate
 ```
 
 5. From the project directory run the following command: `./mvnw spring-boot: run`
+
+6. Log In with: admin, for username and password.
+
 ## Versioning
 
 We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/jperezmota/WSellFiliates/tags).
