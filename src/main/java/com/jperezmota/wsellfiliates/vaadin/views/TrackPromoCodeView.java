@@ -60,6 +60,7 @@ public class TrackPromoCodeView extends VerticalLayout implements View{
 	@Override
 	public void enter(ViewChangeEvent event) {
 		createInterface();
+		couponSellListDataProvider.refreshAll();
     }
 	
 	private void createInterface() {
