@@ -1,0 +1,1 @@
+Move to this directory your VAADIN directory located in src/main/webapp in case that your packaging will be with WAR instead of JAR.
