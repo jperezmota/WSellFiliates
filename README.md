@@ -18,7 +18,7 @@ made through their assigned Coupon Code.
 ## Install
 #### Prequisites
 
-* Java 8+
+* Java SE Development Kit 8
 * MySQL 5.7.18+
 
 #### Installation Process
