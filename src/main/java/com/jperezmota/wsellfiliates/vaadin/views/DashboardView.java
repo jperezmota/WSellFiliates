@@ -9,7 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
-import com.jperezmota.wsellfiliates.entity.wordpress.CouponSell;
+import com.jperezmota.wsellfiliates.entity.wordpress.CouponSale;
 import com.jperezmota.wsellfiliates.services.WordpressServiceImpl;
 import com.jperezmota.wsellfiliates.utilities.SystemNotificationUtil;
 import com.jperezmota.wsellfiliates.utilities.UserSession;
@@ -50,10 +50,10 @@ public class DashboardView extends VerticalLayout implements View{
 	private DateField txtFinalDate;
 	private Button btnSearch;
 	
-	private List<CouponSell> couponsSells;
-	private ListDataProvider<CouponSell> couponSellListDataProvider;
+	private List<CouponSale> couponsSells;
+	private ListDataProvider<CouponSale> couponSellListDataProvider;
 	private Label lblSellsGrid;
-	private Grid<CouponSell> sellsGrid;
+	private Grid<CouponSale> sellsGrid;
 
 	@Override
 	public void enter(ViewChangeEvent event) {
@@ -72,7 +72,7 @@ public class DashboardView extends VerticalLayout implements View{
 	}
 	
 	private void createComponents() {
-		couponsSells = new ArrayList<CouponSell>();
+		couponsSells = new ArrayList<CouponSale>();
 		
 		lblView = new Label("Dashboard");
 		lblView.addStyleName(ValoTheme.LABEL_H1);
@@ -143,7 +143,7 @@ public class DashboardView extends VerticalLayout implements View{
 		LocalDate finalDate = txtFinalDate.getValue();
 		String userCoupon = userSession.getCoupon();
 		
-		List<CouponSell> salesFound = wordpressService.getSellsByCoupon(userCoupon, initialDate, finalDate);
+		List<CouponSale> salesFound = wordpressService.getSalesByCoupon(userCoupon, initialDate, finalDate);
 		
 		couponsSells.clear();
 		this.couponsSells.addAll(salesFound);
@@ -151,15 +151,15 @@ public class DashboardView extends VerticalLayout implements View{
 	}
 
 	private Grid createGrid() {
-		Grid<CouponSell> sellsGrid = new Grid<CouponSell>();
+		Grid<CouponSale> sellsGrid = new Grid<CouponSale>();
 		sellsGrid.setSizeFull();
 		
-		sellsGrid.addColumn(CouponSell::getOrderId).setId("Order Id").setCaption("Order Id");
-		sellsGrid.addColumn(CouponSell::getPaidDate).setId("Date").setCaption("Date");
-		sellsGrid.addColumn(CouponSell::getBillingCountry).setId("Country").setCaption("Country");
-		sellsGrid.addColumn(CouponSell::getBillingCity).setId("City").setCaption("City");
-		sellsGrid.addColumn(CouponSell::getBillingState).setId("State").setCaption("State");
-		sellsGrid.addColumn(CouponSell::getOrderTotal).setId("Order Total").setCaption("Order Total").setStyleGenerator(item -> "v-align-right");
+		sellsGrid.addColumn(CouponSale::getOrderId).setId("Order Id").setCaption("Order Id");
+		sellsGrid.addColumn(CouponSale::getPaidDate).setId("Date").setCaption("Date");
+		sellsGrid.addColumn(CouponSale::getBillingCountry).setId("Country").setCaption("Country");
+		sellsGrid.addColumn(CouponSale::getBillingCity).setId("City").setCaption("City");
+		sellsGrid.addColumn(CouponSale::getBillingState).setId("State").setCaption("State");
+		sellsGrid.addColumn(CouponSale::getOrderTotal).setId("Order Total").setCaption("Order Total").setStyleGenerator(item -> "v-align-right");
 		
 		FooterRow footerRow = sellsGrid.appendFooterRow();
 		footerRow.getCell("State").setHtml("<strong>Total:</strong> ");
@@ -177,7 +177,7 @@ public class DashboardView extends VerticalLayout implements View{
 	}
 	
 	private String calculateTotalInSales() {
-		double totalInSales = couponSellListDataProvider.fetch(new Query<>()).mapToDouble(CouponSell::getOrderTotal).sum();
+		double totalInSales = couponSellListDataProvider.fetch(new Query<>()).mapToDouble(CouponSale::getOrderTotal).sum();
 
 		if(totalInSales > 0 ) {
 			DecimalFormat decimalFormat = new DecimalFormat("0.00");

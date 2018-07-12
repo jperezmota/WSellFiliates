@@ -7,8 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "coupon_sells")
-public class CouponSell {
+@Table(name = "coupons_sales")
+public class CouponSale {
 	
 	@javax.persistence.Id
 	@Column(name = "order_id")
@@ -33,7 +33,7 @@ public class CouponSell {
 	private double orderTotal;
 	
 	
-	public CouponSell() {
+	public CouponSale() {
 		
 	}
 

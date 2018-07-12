@@ -10,7 +10,7 @@ import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 
-import com.jperezmota.wsellfiliates.entity.wordpress.CouponSell;
+import com.jperezmota.wsellfiliates.entity.wordpress.CouponSale;
 
 @Repository
 public class WordpressRepositoryImpl implements WordpressRepository {
@@ -19,13 +19,13 @@ public class WordpressRepositoryImpl implements WordpressRepository {
     private EntityManager em;
 
 	@Override
-	public List<CouponSell> getSellsByCoupon(String coupon, Date initialDate, Date finalDate) {
+	public List<CouponSale> getSellsByCoupon(String coupon, Date initialDate, Date finalDate) {
 		Query query = em.createQuery("from CouponSell cs where cs.coupon =:coupon and (cs.paidDate >=:initialDate and cs.paidDate <=:finalDate)");
 		query.setParameter("coupon", coupon);
 		query.setParameter("initialDate", initialDate);
 		query.setParameter("finalDate", finalDate);
 		
-		List<CouponSell> couponSells = query.getResultList();
+		List<CouponSale> couponSells = query.getResultList();
 		
 		return couponSells; 
 	}

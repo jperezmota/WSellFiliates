@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jperezmota.wsellfiliates.dao.WordpressRepository;
-import com.jperezmota.wsellfiliates.entity.wordpress.CouponSell;
+import com.jperezmota.wsellfiliates.entity.wordpress.CouponSale;
 
 @Service
 @Transactional(value = "wordpressTransactionManager" )
@@ -25,12 +25,12 @@ public class WordpressServiceImpl implements WordpressService{
 	private WordpressRepository wordpressRepository;
 
 	@Override
-	public List<CouponSell> getSellsByCoupon(String coupon, LocalDate initialDate, LocalDate finalDate) {
+	public List<CouponSale> getSalesByCoupon(String coupon, LocalDate initialDate, LocalDate finalDate) {
 		validateFilterData(coupon, initialDate, initialDate);
 		
 		Date initialDateConverted = Date.from(initialDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
 		Date finalDateConverted = Date.from(finalDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-		List<CouponSell> couponSells = wordpressRepository.getSellsByCoupon(coupon, initialDateConverted, finalDateConverted);
+		List<CouponSale> couponSells = wordpressRepository.getSellsByCoupon(coupon, initialDateConverted, finalDateConverted);
 		if(couponSells.isEmpty()) {
 			throw new RuntimeException("No sales found with your Promo Code.");
 		}
