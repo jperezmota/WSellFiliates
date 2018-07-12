@@ -24,6 +24,7 @@ import com.jperezmota.wsellfiliates.utilities.UserSession;
 import com.jperezmota.wsellfiliates.vaadin.ui.main.MainUI;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.Title;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
@@ -50,6 +51,7 @@ import com.vaadin.ui.themes.ValoTheme;
 
 @SpringUI(path = "/login")
 @Theme("wsellfiliates")
+@Title("WSellFiliates")
 public class LoginUI extends UI{
 	
 	@Autowired

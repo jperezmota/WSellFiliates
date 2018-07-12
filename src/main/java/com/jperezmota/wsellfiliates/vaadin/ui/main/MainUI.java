@@ -25,7 +25,7 @@ import java.util.Map;
 
 @SpringUI(path = "/")
 @Theme("wsellfiliates")
-@Title("Demo Valo Theme")
+@Title("WSellFiliates")
 public class MainUI extends UI implements ViewChangeListener{
 	
 	public static final String VIEW_NAME = "/";
