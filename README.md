@@ -4,8 +4,8 @@ build an Affiliate Program to boost your sales and give visibility to your membe
 made through their assigned Coupon Code.
 
 <p align="center">
-    <img src="https://s8.postimg.cc/68xq1rz6d/wsellfiliate.png" />         
- </p>
+    <img src="https://s8.postimg.cc/68xq1rz6d/wsellfiliate.png" height="500" width="550" />             
+</p>
 
 ## Who Uses WSellFiliates
 
