@@ -100,3 +100,7 @@ Please take a look at our [contributing](https://github.com/jperezmota/WSellFili
 #### Pending Features
 
 Pending features are listed here: [Issues](https://github.com/jperezmota/WSellFiliates/issues)
+
+## Contact me
+
+Feel free to contact me if you need any help! jonathanperezmota@gmail.com
