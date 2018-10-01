@@ -95,7 +95,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Contributing
 
-Please take a look at our [contributing](https://github.com/jperezmota/WSellFiliates/CONTRIBUTING.md) guidelines if you're interested in helping!
+Please take a look at our [contributing](https://github.com/jperezmota/WSellFiliates/blob/master/CONSTRIBUTING.md) guidelines if you're interested in helping!
 
 #### Pending Features
 
