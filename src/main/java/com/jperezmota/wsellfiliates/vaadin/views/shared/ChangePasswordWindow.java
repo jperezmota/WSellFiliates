@@ -59,6 +59,7 @@ public class ChangePasswordWindow extends Window{
 	
 	private void configureRootLayout() {
 		center();
+		setWidth("35%");
 		setModal(true);
 		setResizable(false);
 		setCaption("Chaing password to " + this.username);

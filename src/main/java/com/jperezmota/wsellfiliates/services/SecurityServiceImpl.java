@@ -17,6 +17,7 @@ import com.jperezmota.wsellfiliates.dao.UserRepository;
 import com.jperezmota.wsellfiliates.entity.AsignedCoupon;
 import com.jperezmota.wsellfiliates.entity.Authority;
 import com.jperezmota.wsellfiliates.entity.User;
+import com.jperezmota.wsellfiliates.utilities.HashingUtil;
 import com.jperezmota.wsellfiliates.utilities.UserSession;
 
 @Service
@@ -63,8 +64,7 @@ public class SecurityServiceImpl implements SecurityService{
 	
 	@Override
 	public User verifyUsernamePassword(String username, String password) {
-		HashFunction hashFunction = Hashing.sha256();
-		String hashedPassword = hashFunction.hashString(password, Charsets.UTF_8).toString();
+		String hashedPassword = HashingUtil.hashString(password);
 	
 		User user = userRepository.findByUsernameAndPasswordAndEnabled(username, hashedPassword, true);
 		boolean userNotFound = user == null;
@@ -94,7 +94,8 @@ public class SecurityServiceImpl implements SecurityService{
 	@Override
 	public void changeUserPassword(String username, String newPassword, String newPasswordConfirmation) {
 		validateChangePasswordData(username, newPassword, newPasswordConfirmation);
-		userRepository.changeUsernamePassword(newPassword, username);
+		String hashedPassword = HashingUtil.hashString(newPassword);
+		userRepository.changeUsernamePassword(hashedPassword, username);
 	}
 	
 	@Override
