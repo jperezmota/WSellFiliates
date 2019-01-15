@@ -44,7 +44,8 @@ select
     max( CASE WHEN pm.meta_key = '_billing_city' THEN pm.meta_value END ) as billing_city,
     max( CASE WHEN pm.meta_key = '_billing_state' THEN pm.meta_value END ) as billing_state,
     max( CASE WHEN pm.meta_key = '_paid_date' THEN pm.meta_value END ) as paid_date,
-    sum( CASE WHEN pm.meta_key = '_order_total' THEN pm.meta_value END ) as order_total
+    sum( CASE WHEN pm.meta_key = '_order_shipping' THEN pm.meta_value  END )  as shipping_total,
+    sum( CASE WHEN pm.meta_key = '_order_total' THEN pm.meta_value  END )  as order_total
 from
     wp_posts p 
     join wp_postmeta pm on p.ID = pm.post_id
