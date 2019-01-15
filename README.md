@@ -1,5 +1,5 @@
 # WSellFiliates
-Is an easy to use Web Application integrated with your Wordpress Woocommerce Storefront in order to help you
+When I founded [TheCoder.store](https://www.thecoder.store/) the first member from our [Affiliate Program](https://www.thecoder.store/affiliate-program/) was constantly asking me about how their sales were going, therefore I decided to create WSellFiliates. It is an easy to use Web Application integrated with your [Wordpress](https://wordpress.com/) [WooCommerce](https://woocommerce.com/) Storefront in order to help you
 build an Affiliate Program to boost your sales and give visibility to your members about their earned commission
 made through their assigned Coupon Code.
 
@@ -95,7 +95,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Contributing
 
-Please take a look at our [contributing](https://github.com/jperezmota/WSellFiliates/CONTRIBUTING.md) guidelines if you're interested in helping!
+Please take a look at our [contributing](https://github.com/jperezmota/WSellFiliates/blob/master/CONSTRIBUTING.md) guidelines if you're interested in helping!
 
 #### Pending Features
 
